@@ -29,6 +29,7 @@
       "@routes/*": ["src/routes/*"],
       "@assets/*": ["src/assets/*"],
       "@styled/*": ["src/styled/*"],
+      "@config/*": ["src/config/*"],
       "@interfaces/*": ["src/interfaces/*"]
     },
 

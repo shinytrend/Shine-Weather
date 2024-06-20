@@ -4,12 +4,10 @@ import MainLayout from "@layouts/main/main.layout";
 
 function App() {
   return (
-    <>
+    <AppLoader>
       <CssBaseline />
-      <AppLoader>
-        <MainLayout />
-      </AppLoader>
-    </>
+      <MainLayout />
+    </AppLoader>
   );
 }
 
