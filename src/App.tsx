@@ -1,7 +1,14 @@
+import { CssBaseline } from "@mui/material";
+import AppLoader from "@hoc/app-loader";
+import MainLayout from "@layouts/main/main.layout";
+
 function App() {
   return (
     <>
-      <h1>hello world</h1>
+      <CssBaseline />
+      <AppLoader>
+        <MainLayout />
+      </AppLoader>
     </>
   );
 }

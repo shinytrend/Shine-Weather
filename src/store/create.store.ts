@@ -1,7 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import weatherDataReducer from "./weather/weather.store";
 
 const rootReducer = combineReducers({
-  // objects: objectsReducer,
+  weatherData: weatherDataReducer
 });
 
 export function createStore() {

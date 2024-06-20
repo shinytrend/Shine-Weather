@@ -1,3 +1,4 @@
+import { loadWeatherData } from "@store/weather/weather.store";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
@@ -8,7 +9,7 @@ interface AppLoaderProps {
 const AppLoader = ({ children }: AppLoaderProps) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    // dispatch<any>(loadCitiesList());
+    dispatch<any>(loadWeatherData());
   }, [dispatch]);
 
   return children;
