@@ -1,19 +1,15 @@
-import axios from "axios";
 import { Dispatch, createSlice } from "@reduxjs/toolkit";
-import configFile from "@config/config.json";
+import { groupCities } from "@utils/group-cities";
 
 interface IStoreState {
   weatherData: any;
 }
 
 const initialState = {
-  entities: null,
+  entities: [],
   isLoading: true,
   error: null
 };
-
-const API_KEY = configFile.api_key_weatherapi;
-const BASE_URL = configFile.base_url_weatherapi;
 
 const weatherDataSlice = createSlice({
   name: "weatherData",
@@ -26,6 +22,9 @@ const weatherDataSlice = createSlice({
       state.entities = action.payload;
       state.isLoading = false;
     },
+    weatherUpdated: (state, action) => {
+      state.entities = action.payload;
+    },
     weatherFailed: (state, action) => {
       state.error = action.payload;
       state.isLoading = false;
@@ -34,30 +33,62 @@ const weatherDataSlice = createSlice({
 });
 
 const { reducer: weatherDataReducer, actions } = weatherDataSlice;
-const { weatherRequested, weatherReceived, weatherFailed } = actions;
+const { weatherRequested, weatherReceived, weatherUpdated, weatherFailed } =
+  actions;
 
 export const loadWeatherData =
   (selectedCities: string[]) => async (dispatch: Dispatch) => {
     dispatch(weatherRequested());
     try {
-      const citiesData = await Promise.all(
-        selectedCities.map(async (city) => {
-          const { data } = await axios(
-            `${BASE_URL}?key=${API_KEY}&q=${city}&aqi=no`
-          );
-          return { [city]: data };
-        })
-      );
-
-      const groupedCities = citiesData.reduce((acc, cityData) => {
-        const cityName = Object.keys(cityData)[0];
-        acc[cityName] = cityData[cityName];
-        return acc;
-      }, {});
+      const groupedCities = await groupCities(selectedCities);
 
       dispatch(weatherReceived(groupedCities));
-    } catch (error) {
-      dispatch(weatherFailed(error.message));
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        dispatch(weatherFailed(error.message));
+      }
+    }
+  };
+
+export const updateWeatherData =
+  (selectedCity: string) => async (dispatch: Dispatch) => {
+    try {
+      const selectedCities = () => {
+        const storedCities = localStorage.getItem("selected-cities");
+        return storedCities ? JSON.parse(storedCities) : [];
+      };
+
+      function getFirstWordBeforeComma(str: string) {
+        let commaIndex = str.indexOf(",");
+
+        if (commaIndex !== -1) {
+          return str.substring(0, commaIndex).split(" ")[0];
+        } else {
+          return str.split(" ")[0];
+        }
+      }
+
+      const onlyCity = getFirstWordBeforeComma(selectedCity);
+      const isDuplicated = selectedCities().includes(onlyCity);
+
+      if (!isDuplicated) {
+        const newSelectedCities = [...selectedCities(), selectedCity];
+        localStorage.setItem(
+          "selected-cities",
+          JSON.stringify(newSelectedCities)
+        );
+
+        const groupedCities = await groupCities(newSelectedCities);
+        dispatch(weatherUpdated(groupedCities));
+      } else {
+        console.log("Selected city is already in the list.");
+        throw new Error("Этот город уже есть в списке, выберите другой");
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        dispatch(weatherFailed(error));
+      }
+      throw error;
     }
   };
 

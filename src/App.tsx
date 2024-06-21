@@ -1,27 +1,28 @@
+import "dayjs/locale/ru";
+import dayjs from "dayjs";
 import AppLoader from "@hoc/app-loader";
 import { CssBaseline } from "@mui/material";
-import { Box, styled } from "@mui/material";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 import MainLayout from "@layouts/main/main.layout";
 import HeaderMain from "@components/UI/header-main/header-main";
-
-const Container = styled(Box)`
-  width: 100vw;
-  height: 100vh;
-  background: gray;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
+import { ApplicationStyled } from "@styles/application-styled";
 
 function App() {
+  dayjs.locale("ru");
+
   return (
     <AppLoader>
       <CssBaseline />
-      <Container>
+      <ApplicationStyled>
         <HeaderMain />
         <MainLayout />
-      </Container>
+      </ApplicationStyled>
+      <ToastContainer
+        position="bottom-left"
+        className="toast-container"
+        autoClose={2200}
+      />
     </AppLoader>
   );
 }

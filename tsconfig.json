@@ -30,7 +30,9 @@
       "@assets/*": ["src/assets/*"],
       "@styled/*": ["src/styled/*"],
       "@config/*": ["src/config/*"],
-      "@interfaces/*": ["src/interfaces/*"]
+      "@interfaces/*": ["src/interfaces/*"],
+      "@data/*": ["src/data/*"],
+      "@styles/*": ["src/styles/*"]
     },
 
     /* Linting */

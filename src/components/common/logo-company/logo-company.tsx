@@ -13,6 +13,8 @@ const CompanyName = styled(Typography)`
   display: flex;
   align-items: center;
   gap: 4px;
+  font-size: 13px;
+  line-height: 1;
   text-transform: uppercase;
 `;
 

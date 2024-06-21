@@ -1,5 +1,5 @@
 import { loadWeatherData } from "@store/weather/weather.store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 interface AppLoaderProps {
@@ -9,24 +9,11 @@ interface AppLoaderProps {
 const AppLoader = ({ children }: AppLoaderProps) => {
   const dispatch = useDispatch();
 
-  const [selectedCities, setSelectedCities] = useState<string[]>(() => {
-    const storedCities = localStorage.getItem("selected-cities");
-    return storedCities ? JSON.parse(storedCities) : [];
-  });
-
-  const selectedCitiesMock = ["London", "Moscow", "Boston", "New York"];
+  const storedCities = localStorage.getItem("selected-cities");
+  const cities = storedCities ? JSON.parse(storedCities) : [];
 
   useEffect(() => {
-    localStorage.setItem("selected-cities", JSON.stringify(selectedCitiesMock));
-    setSelectedCities(selectedCitiesMock);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("selected-cities", JSON.stringify(selectedCitiesMock));
-  }, [selectedCities]);
-
-  useEffect(() => {
-    dispatch<any>(loadWeatherData(selectedCities));
+    dispatch<any>(loadWeatherData(cities));
   }, [dispatch]);
 
   return children;

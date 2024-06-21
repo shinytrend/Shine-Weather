@@ -7,6 +7,7 @@ const HeaderContainer = styled(Box)`
   background: white;
   display: flex;
   justify-content: center;
+  margin-bottom: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
@@ -14,6 +15,7 @@ const Header = styled(Box)`
   width: 1024px;
   background: white;
   display: flex;
+  padding: 0 20px;
   justify-content: space-between;
 `;
 
