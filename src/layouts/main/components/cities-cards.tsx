@@ -36,21 +36,22 @@ const StyledIconButton = styled(IconButton)`
   }
 `;
 
-export const SampleNextArrow: FC<any> = ({ onClick }) => {
+const SampleNextArrow: FC<any> = ({ onClick }) => {
   return (
-    <StyledIconButton style={{ right: -30 }} onClick={onClick}>
+    <StyledIconButton style={{ right: -34 }} onClick={onClick}>
       <ArrowForwardIosOutlinedIcon />
     </StyledIconButton>
   );
 };
 
-export const SamplePrevArrow: FC<any> = ({ onClick }) => {
+const SamplePrevArrow: FC<any> = ({ onClick }) => {
   return (
-    <StyledIconButton style={{ left: -50 }} onClick={onClick}>
+    <StyledIconButton style={{ left: -40 }} onClick={onClick}>
       <ArrowBackIosNewOutlinedIcon />
     </StyledIconButton>
   );
 };
+
 const CitiesCards = () => {
   const weatherData = useSelector(getWeatherData());
   const citiesLength = Object.keys(weatherData).length;

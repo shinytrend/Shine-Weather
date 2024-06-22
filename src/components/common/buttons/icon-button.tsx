@@ -12,11 +12,7 @@ interface Props {
   onClick?: () => void;
 }
 
-const Button = styled(IconButton)`
-  &:hover {
-    color: red;
-  }
-`;
+const Button = styled(IconButton)``;
 
 const IconButtonStyled: FC<Props> = ({
   height = "100%",
@@ -39,7 +35,13 @@ const IconButtonStyled: FC<Props> = ({
           onClick={onClick}
           disabled={disabled}
         >
-          <Icon sx={{ fontSize }} />
+          <Icon
+            sx={{
+              fontSize,
+              color: !disabled ? "Coral" : "gray",
+              "&:hover": { color: "red" }
+            }}
+          />
         </Button>
       </span>
     </Tooltip>
