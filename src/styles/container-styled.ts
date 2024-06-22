@@ -5,8 +5,5 @@ export const ContainerStyled = styled(Box)`
   height: 100%;
   padding: 20px;
   background: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   border-radius: 6px;
 `;

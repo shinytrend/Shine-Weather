@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { FC, memo } from "react";
+import { useSelector } from "react-redux";
 import {
   UseFormHandleSubmit,
   UseFormRegister,
@@ -13,6 +14,8 @@ import CitiesAutocomplete from "@components/UI/cities-autocomplete/cities-autoco
 import IconButtonStyled from "@components/common/buttons/icon-button";
 // styles
 import { FormFields, FormStyled } from "@styles/form-styled";
+// store
+import { getWeatherData } from "@store/weather/weather.store";
 
 interface Props {
   register: UseFormRegister<any>;
@@ -21,7 +24,6 @@ interface Props {
   onSubmit: (data: any) => void;
   data: Record<string, any>;
   onClear: () => void;
-  isWeatherDataEmpty?: boolean | undefined;
 }
 
 const SearchCityForm: FC<Props> = memo(
@@ -31,9 +33,11 @@ const SearchCityForm: FC<Props> = memo(
     setValue,
     onSubmit,
     handleSubmit,
-    onClear,
-    isWeatherDataEmpty
+    onClear
   }): JSX.Element => {
+    const weatherData = useSelector(getWeatherData());
+    const isWeatherDataEmpty = !!Object.keys(weatherData).length;
+
     return (
       <FormStyled onSubmit={handleSubmit(onSubmit)}>
         <FormFields>
@@ -48,12 +52,15 @@ const SearchCityForm: FC<Props> = memo(
               fontSize="40px"
               type="submit"
               disabled={!data.selectedCity}
+              tooltipTitle="Добавить выбранный город"
             />
+
             <IconButtonStyled
               icon={DeleteOutlineOutlinedIcon}
               fontSize="40px"
               disabled={!isWeatherDataEmpty}
               onClick={onClear}
+              tooltipTitle="Удалить все города"
             />
           </Box>
         </FormFields>

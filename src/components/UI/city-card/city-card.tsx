@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { Paper, Typography, styled } from "@mui/material";
-// components
 import CityCardContent from "./components/city-card-content";
 import CityCardDeleteIcon from "./components/city-card-delete-icon";
 
@@ -13,13 +12,15 @@ const Title = styled(Typography)`
 `;
 
 const Component = styled(Paper)`
-  width: 318px;
+  width: 280px;
+  height: 380px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   position: relative;
   align-items: center;
   cursor: pointer;
+  margin: 4px 0;
   border: 1px solid transparent; /* Начальные стили для границы */
   transition: border 0.3s ease; /* Плавный переход для границы */
   &:hover {

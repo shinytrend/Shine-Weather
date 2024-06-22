@@ -1,10 +1,16 @@
-import { Typography } from "@mui/material";
+import { Box, Typography, styled } from "@mui/material";
 
+const Component = styled(Box)`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+`;
 const EmptySelectTitle = () => {
   return (
-    <Typography variant="h4" marginTop="40px">
-      Выберите город из списка
-    </Typography>
+    <Component>
+      <Typography variant="h4">Выберите город из списка</Typography>
+    </Component>
   );
 };
 

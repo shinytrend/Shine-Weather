@@ -1,9 +1,11 @@
-import { IconButton, SvgIconProps, styled } from "@mui/material";
+import { IconButton, Tooltip, styled } from "@mui/material";
 import { FC } from "react";
+import { SvgIconProps } from "@mui/material/SvgIcon";
 
 interface Props {
   height?: string;
   fontSize?: string;
+  tooltipTitle?: string;
   type?: "submit" | "button" | "reset";
   icon: React.ElementType<SvgIconProps>;
   disabled?: boolean;
@@ -22,20 +24,25 @@ const IconButtonStyled: FC<Props> = ({
   type = "button",
   icon: IconComponent,
   disabled = false,
-  onClick = () => {}
+  onClick = () => {},
+  tooltipTitle = ""
 }) => {
   const Icon = IconComponent;
 
   return (
-    <Button
-      aria-label="delete"
-      type={type}
-      sx={{ height }}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      <Icon sx={{ fontSize }} />
-    </Button>
+    <Tooltip title={tooltipTitle} placement="top">
+      <span>
+        <Button
+          aria-label="delete"
+          type={type}
+          sx={{ height }}
+          onClick={onClick}
+          disabled={disabled}
+        >
+          <Icon sx={{ fontSize }} />
+        </Button>
+      </span>
+    </Tooltip>
   );
 };
 

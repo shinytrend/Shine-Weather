@@ -45,6 +45,9 @@ const weatherDataSlice = createSlice({
     createdCityRequested: (state) => {
       state.isCreatedLoading = true;
     },
+    createdCityFailed: (state) => {
+      state.isCreatedLoading = false;
+    },
     createdCity: (state, action) => {
       const { newCityData, searchedCity } = action.payload;
       state.entities[searchedCity] = newCityData;
@@ -62,14 +65,15 @@ const weatherDataSlice = createSlice({
 });
 
 const { reducer: weatherDataReducer, actions } = weatherDataSlice;
-const {
+export const {
   weatherDataRequested,
   weatherDataReceived,
   createdCity,
   weatherDataFailed,
   deletedCity,
   removedAllWeatherData,
-  createdCityRequested
+  createdCityRequested,
+  createdCityFailed
 } = actions;
 
 export const loadWeatherData =
@@ -85,7 +89,7 @@ export const loadWeatherData =
     }
   };
 
-export const createWeatherData =
+export const createNewCity =
   (searchedCity: string) => async (dispatch: Dispatch) => {
     dispatch(createdCityRequested());
     try {
@@ -96,10 +100,7 @@ export const createWeatherData =
         throw new Error("Этот город уже есть в списке, выберите другой");
       }
 
-      const newCityData = await fetchNewCityData(newCity);
-      if (!newCityData) {
-        return;
-      }
+      const newCityData = await fetchNewCityData(newCity, dispatch);
 
       const newSelectedCities = [...getStorageCities(), searchedCity];
       localStorage.setItem(

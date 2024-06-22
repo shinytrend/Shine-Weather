@@ -8,7 +8,9 @@ interface Props {
 }
 
 const Component = styled(Box)`
+  width: 100%;
   display: flex;
+  justify-content: center;
   gap: 4px;
 `;
 
