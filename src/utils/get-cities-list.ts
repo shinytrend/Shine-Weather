@@ -4,7 +4,7 @@ import axios from "axios";
 const API_KEY = configFile.api_key_weatherapi;
 const BASE_URL = configFile.base_url_weatherapi;
 
-export async function groupCities(selectedCities: string[]) {
+export async function getCitiesList(selectedCities: string[]) {
   const citiesData = await Promise.all(
     selectedCities.map(async (city) => {
       const { data } = await axios(

@@ -1,7 +1,8 @@
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
-import { groupCities } from "@utils/group-cities";
 import { getStorageCities } from "@utils/get-storage-cities";
 import { getFirstWordBeforeComma } from "@utils/get-first-word-before-comma";
+import { getCitiesList } from "@utils/get-cities-list";
+import { fetchNewCityData } from "@utils/fetch-new-city-data";
 
 interface WeatherData {
   [key: string]: {
@@ -14,13 +15,15 @@ interface IStoreState {
   weatherData: {
     entities: WeatherData;
     isLoading: boolean;
+    isCreatedLoading: boolean;
     error: string | null;
   };
 }
 
 const initialState = {
   entities: {},
-  isLoading: true,
+  isLoading: false,
+  isCreatedLoading: false,
   error: null
 };
 
@@ -35,20 +38,25 @@ const weatherDataSlice = createSlice({
       state.entities = action.payload;
       state.isLoading = false;
     },
-    weatherDataUpdated: (state, action) => {
-      state.entities = action.payload;
-    },
     weatherDataFailed: (state, action) => {
       state.error = action.payload;
       state.isLoading = false;
     },
-    removeAllWeatherData: (state) => {
-      state.entities = {};
+    createdCityRequested: (state) => {
+      state.isCreatedLoading = true;
     },
-    deleteCity: (state, action) => {
+    createdCity: (state, action) => {
+      const { newCityData, searchedCity } = action.payload;
+      state.entities[searchedCity] = newCityData;
+      state.isCreatedLoading = false;
+    },
+    deletedCity: (state, action) => {
       const updatedEntities = { ...state.entities };
       delete updatedEntities[action.payload];
       state.entities = updatedEntities;
+    },
+    removedAllWeatherData: (state) => {
+      state.entities = {};
     }
   }
 });
@@ -57,17 +65,18 @@ const { reducer: weatherDataReducer, actions } = weatherDataSlice;
 const {
   weatherDataRequested,
   weatherDataReceived,
-  weatherDataUpdated,
+  createdCity,
   weatherDataFailed,
-  deleteCity,
-  removeAllWeatherData
+  deletedCity,
+  removedAllWeatherData,
+  createdCityRequested
 } = actions;
 
 export const loadWeatherData =
   (selectedCities: string[]) => async (dispatch: Dispatch) => {
     dispatch(weatherDataRequested());
     try {
-      const groupedCities = await groupCities(selectedCities);
+      const groupedCities = await getCitiesList(selectedCities);
       dispatch(weatherDataReceived(groupedCities));
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -76,24 +85,29 @@ export const loadWeatherData =
     }
   };
 
-export const updateWeatherData =
-  (selectedCity: string) => async (dispatch: Dispatch) => {
+export const createWeatherData =
+  (searchedCity: string) => async (dispatch: Dispatch) => {
+    dispatch(createdCityRequested());
     try {
-      const onlyCity = getFirstWordBeforeComma(selectedCity);
-      const isDuplicated = getStorageCities().includes(onlyCity);
+      const newCity = getFirstWordBeforeComma(searchedCity);
 
-      if (!isDuplicated) {
-        const newSelectedCities = [...getStorageCities(), selectedCity];
-        localStorage.setItem(
-          "selected-cities",
-          JSON.stringify(newSelectedCities)
-        );
-
-        const groupedCities = await groupCities(newSelectedCities);
-        dispatch(weatherDataUpdated(groupedCities));
-      } else {
+      const isDuplicated = getStorageCities().includes(newCity);
+      if (isDuplicated) {
         throw new Error("Этот город уже есть в списке, выберите другой");
       }
+
+      const newCityData = await fetchNewCityData(newCity);
+      if (!newCityData) {
+        return;
+      }
+
+      const newSelectedCities = [...getStorageCities(), searchedCity];
+      localStorage.setItem(
+        "selected-cities",
+        JSON.stringify(newSelectedCities)
+      );
+
+      dispatch(createdCity({ newCityData, searchedCity }));
     } catch (error: unknown) {
       if (error instanceof Error) {
         dispatch(weatherDataFailed(error));
@@ -112,7 +126,8 @@ export const deleteCityFromWeatherData =
         "selected-cities",
         JSON.stringify(storageCitiesList)
       );
-      dispatch(deleteCity(selectedCity));
+
+      dispatch(deletedCity(selectedCity));
     } catch (error: unknown) {
       if (error instanceof Error) {
         dispatch(weatherDataFailed(error));
@@ -124,7 +139,7 @@ export const deleteCityFromWeatherData =
 export const clearWeatherData = () => async (dispatch: Dispatch) => {
   try {
     localStorage.setItem("selected-cities", "");
-    dispatch(removeAllWeatherData({}));
+    dispatch(removedAllWeatherData());
   } catch (error: unknown) {
     if (error instanceof Error) {
       dispatch(weatherDataFailed(error));
@@ -138,5 +153,8 @@ export const getWeatherData = () => (state: IStoreState) =>
 
 export const getWeatherDataLoadingStatus = () => (state: IStoreState) =>
   state.weatherData.isLoading;
+
+export const getCreateCityLoadingStatus = () => (state: IStoreState) =>
+  state.weatherData.isCreatedLoading;
 
 export default weatherDataReducer;

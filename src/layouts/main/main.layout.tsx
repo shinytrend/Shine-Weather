@@ -6,8 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 // store
 import {
   clearWeatherData,
+  createWeatherData,
+  getCreateCityLoadingStatus,
   getWeatherData,
-  updateWeatherData
+  getWeatherDataLoadingStatus
 } from "@store/weather/weather.store";
 // components
 import DateAndTime from "./components/date-and-time";
@@ -20,6 +22,7 @@ import { ContainerStyled } from "@styles/container-styled";
 import SearchCityForm from "@forms/search-city.form";
 // hooks
 import useRemoveItem from "@hooks/item/use-remove-item";
+import LoaderFullWindow from "@components/common/loader/loader-full-window";
 
 const MainLayoutInitialState = {
   selectedCity: ""
@@ -29,6 +32,10 @@ const MainLayout: FC = memo(() => {
   const dispatch = useDispatch();
   const weatherData = useSelector(getWeatherData());
   const isWeatherDataEmpty = !!Object.keys(weatherData).length;
+
+  const isWeatherDataLoading = useSelector(getWeatherDataLoadingStatus());
+  const isCreateCityLoading = useSelector(getCreateCityLoadingStatus());
+
   console.log("weatherData", weatherData);
 
   const { register, watch, setValue, handleSubmit, reset } = useForm({
@@ -36,13 +43,13 @@ const MainLayout: FC = memo(() => {
     mode: "onChange"
   });
   const data = watch();
-  console.log("data", data);
+  // console.log("data", data);
 
   const selectedCity = watch("selectedCity");
 
   const onSubmit = () => {
     if (selectedCity) {
-      dispatch<any>(updateWeatherData(selectedCity))
+      dispatch<any>(createWeatherData(selectedCity))
         .then(() => {
           toast.success("Город успешно добавлен!");
         })
@@ -64,7 +71,7 @@ const MainLayout: FC = memo(() => {
     handleRemoveItem
   } = useRemoveItem({
     onRemove: clearWeatherData(),
-    successMessage: "Города успешно удалены, хранилище очищено!"
+    successMessage: "Города успешно удалены!"
   });
 
   return (
@@ -89,10 +96,15 @@ const MainLayout: FC = memo(() => {
         <EmptySelectTitle />
       )}
       <DialogConfirm
-        question="Вы уверены, что хотите удалить все выбранные города и очистить хранилище?"
+        question="Вы уверены, что хотите удалить все выбранные города?"
         open={openConfirm}
         onClose={handleCloseConfirm}
         onSuccessClick={() => handleRemoveItem()}
+      />
+      <LoaderFullWindow
+        color="green"
+        size={75}
+        isLoading={isCreateCityLoading || isWeatherDataLoading}
       />
     </ContainerStyled>
   );

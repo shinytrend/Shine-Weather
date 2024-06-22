@@ -82,6 +82,9 @@ const CitiesAutocomplete: React.FC<Props> = ({
         setInputValue(newInputValue);
         debouncedSearch(newInputValue);
       }}
+      isOptionEqualToValue={(option, value) =>
+        option.city === value.city && option.region === value.region
+      }
       renderInput={(params) => (
         <TextField
           {...params}
