@@ -8,4 +8,5 @@ export const ApplicationStyled = styled(Box)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: 50px;
 `;

@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { FC, memo } from "react";
 import {
   UseFormHandleSubmit,
@@ -5,7 +6,8 @@ import {
   UseFormSetValue
 } from "react-hook-form";
 // icons
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 // components
 import CitiesAutocomplete from "@components/UI/cities-autocomplete/cities-autocomplete";
 import IconButtonStyled from "@components/common/buttons/icon-button";
@@ -17,10 +19,21 @@ interface Props {
   setValue: UseFormSetValue<any>;
   handleSubmit: UseFormHandleSubmit<any>;
   onSubmit: (data: any) => void;
+  data: Record<string, any>;
+  onClear: () => void;
+  isWeatherDataEmpty?: boolean | undefined;
 }
 
 const SearchCityForm: FC<Props> = memo(
-  ({ register, setValue, onSubmit, handleSubmit }): JSX.Element => {
+  ({
+    data,
+    register,
+    setValue,
+    onSubmit,
+    handleSubmit,
+    onClear,
+    isWeatherDataEmpty
+  }): JSX.Element => {
     return (
       <FormStyled onSubmit={handleSubmit(onSubmit)}>
         <FormFields>
@@ -29,11 +42,20 @@ const SearchCityForm: FC<Props> = memo(
             setValue={setValue}
             name="selectedCity"
           />
-          <IconButtonStyled
-            icon={SearchOutlinedIcon}
-            fontSize="40px"
-            type="submit"
-          />
+          <Box sx={{ display: "flex" }}>
+            <IconButtonStyled
+              icon={AddCircleOutlineOutlinedIcon}
+              fontSize="40px"
+              type="submit"
+              disabled={!data.selectedCity}
+            />
+            <IconButtonStyled
+              icon={DeleteOutlineOutlinedIcon}
+              fontSize="40px"
+              disabled={!isWeatherDataEmpty}
+              onClick={onClear}
+            />
+          </Box>
         </FormFields>
       </FormStyled>
     );

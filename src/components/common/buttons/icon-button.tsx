@@ -1,4 +1,4 @@
-import { IconButton, SvgIconProps } from "@mui/material";
+import { IconButton, SvgIconProps, styled } from "@mui/material";
 import { FC } from "react";
 
 interface Props {
@@ -6,20 +6,36 @@ interface Props {
   fontSize?: string;
   type?: "submit" | "button" | "reset";
   icon: React.ElementType<SvgIconProps>;
+  disabled?: boolean;
+  onClick?: () => void;
 }
+
+const Button = styled(IconButton)`
+  &:hover {
+    color: red;
+  }
+`;
 
 const IconButtonStyled: FC<Props> = ({
   height = "100%",
   fontSize = "inherit",
   type = "button",
-  icon: IconComponent
+  icon: IconComponent,
+  disabled = false,
+  onClick = () => {}
 }) => {
   const Icon = IconComponent;
 
   return (
-    <IconButton aria-label="delete" type={type} sx={{ height }}>
+    <Button
+      aria-label="delete"
+      type={type}
+      sx={{ height }}
+      onClick={onClick}
+      disabled={disabled}
+    >
       <Icon sx={{ fontSize }} />
-    </IconButton>
+    </Button>
   );
 };
 

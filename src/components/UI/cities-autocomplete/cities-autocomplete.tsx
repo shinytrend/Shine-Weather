@@ -1,6 +1,6 @@
 import * as React from "react";
 import debounce from "lodash/debounce";
-import { russiaCities } from "@data/russia";
+import { russiaCities } from "@data/cities-russia";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 // mui
 import Box from "@mui/material/Box";
