@@ -1,8 +1,9 @@
 import "dayjs/locale/ru";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import configFile from "@config/config.json";
 import { ToastContainer } from "react-toastify";
 import { Box, CssBaseline, useMediaQuery } from "@mui/material";
+import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
 // components
 import AppLoader from "@hoc/app-loader";
 import MainLayout from "@layouts/main/main.layout";
@@ -10,7 +11,6 @@ import HeaderMain from "@components/UI/header-main/header-main";
 // styles
 import "react-toastify/dist/ReactToastify.css";
 import { ApplicationStyled } from "@styles/application-styled";
-import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
 
 const MainContainer = styled(Box)`
   height: 100%;
@@ -18,14 +18,11 @@ const MainContainer = styled(Box)`
 
 const theme = createTheme({});
 
+const MOBILE_WIDTH = configFile.mobile_width;
+
 function App() {
   dayjs.locale("ru");
-  const [screenSize, setScreenSize] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width:1024px)");
-
-  useEffect(() => {
-    setScreenSize(isSmallScreen);
-  }, [isSmallScreen]);
+  const isMobileScreen = useMediaQuery(`(max-width: ${MOBILE_WIDTH}px)`);
 
   return (
     <AppLoader>
@@ -33,7 +30,7 @@ function App() {
         <CssBaseline />
         <ApplicationStyled>
           <HeaderMain />
-          <MainContainer sx={{ width: screenSize ? "100%" : "1024px" }}>
+          <MainContainer sx={{ width: isMobileScreen ? "100%" : "1024px" }}>
             <MainLayout />
           </MainContainer>
         </ApplicationStyled>

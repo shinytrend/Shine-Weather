@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { Box, SvgIconProps, Typography, styled } from "@mui/material";
 
 interface Props {
@@ -18,7 +18,7 @@ const RowCityCard: FC<Props> = ({
   value,
   symbol,
   icon: IconComponent
-}) => {
+}): JSX.Element => {
   const Icon = IconComponent;
 
   return (
@@ -33,4 +33,4 @@ const RowCityCard: FC<Props> = ({
   );
 };
 
-export default RowCityCard;
+export default memo(RowCityCard);

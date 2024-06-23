@@ -1,4 +1,5 @@
 import { Box, Typography, styled } from "@mui/material";
+import { FC } from "react";
 
 const Component = styled(Box)`
   width: 100%;
@@ -6,7 +7,7 @@ const Component = styled(Box)`
   justify-content: center;
   margin-top: 60px;
 `;
-const EmptySelectTitle = () => {
+const EmptySelectTitle: FC = (): JSX.Element => {
   return (
     <Component>
       <Typography variant="h4">Выберите город из списка</Typography>

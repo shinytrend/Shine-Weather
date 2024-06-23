@@ -1,5 +1,6 @@
 import LogoCompany from "@components/common/logo-company/logo-company";
 import { Box, styled } from "@mui/material";
+import { FC, memo } from "react";
 
 const HeaderContainer = styled(Box)`
   width: 100%;
@@ -12,14 +13,12 @@ const HeaderContainer = styled(Box)`
 `;
 
 const Header = styled(Box)`
-  width: 1024px;
   background: white;
   display: flex;
-  padding: 0 20px;
-  justify-content: space-between;
+  justify-content: center;
 `;
 
-const HeaderMain = () => {
+const HeaderMain: FC = (): JSX.Element => {
   return (
     <HeaderContainer>
       <Header>
@@ -29,4 +28,4 @@ const HeaderMain = () => {
   );
 };
 
-export default HeaderMain;
+export default memo(HeaderMain);

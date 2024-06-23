@@ -1,9 +1,12 @@
-import { FC } from "react";
+import { FC, memo } from "react";
+import { useSelector } from "react-redux";
 import { Paper, Typography, styled } from "@mui/material";
+// components
 import CityCardContent from "./components/city-card-content";
 import CityCardDeleteIcon from "./components/city-card-delete-icon";
-import { useSelector } from "react-redux";
+// store
 import { getWeatherData } from "@store/weather/weather.store";
+// utils
 import { getBackgroundColor } from "@utils/get-background-card-color";
 
 interface Props {
@@ -15,13 +18,14 @@ const Title = styled(Typography)`
 `;
 
 const Component = styled(Paper)`
-  width: 291px;
+  width: 304px;
   height: 380px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   position: relative;
   align-items: center;
+  justify-content: space-between;
   cursor: pointer;
   margin: 4px 1px;
   border: 1px solid transparent;
@@ -48,4 +52,4 @@ const CityCard: FC<Props> = ({ city }): JSX.Element => {
   );
 };
 
-export default CityCard;
+export default memo(CityCard);

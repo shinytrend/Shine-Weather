@@ -1,4 +1,4 @@
-import { FC, memo } from "react";
+import { FC } from "react";
 import { useSelector } from "react-redux";
 import { Box, styled } from "@mui/material";
 // store
@@ -7,9 +7,8 @@ import {
   getWeatherDataLoadingStatus
 } from "@store/weather/weather.store";
 // components
-import RowCityCard from "./city-card-row";
+import RowCityCard from "../../components/city-card-row";
 import Loader from "@components/common/loader/loader";
-import CityTemperature from "./city-temperature";
 // icons
 import DeviceThermostatOutlinedIcon from "@mui/icons-material/DeviceThermostatOutlined";
 import WaterDropOutlinedIcon from "@mui/icons-material/WaterDropOutlined";
@@ -40,24 +39,16 @@ const ValuesContainer = styled(Box)`
   justify-content: center;
 `;
 
-const Condition = styled("img")({
-  width: "90px",
-  height: "auto"
-});
-
-const CityCardContent: FC<Props> = ({ city }): JSX.Element => {
+const CityCardContentMD: FC<Props> = ({ city }): JSX.Element => {
   const weatherData = useSelector(getWeatherData());
   const isLoading = useSelector(getWeatherDataLoadingStatus());
 
   const dataCurrent = weatherData[city].current;
-  const { feelslike_c, humidity, wind_kph, condition } = dataCurrent;
-  const { icon: conditionIcon, text: conditionText } = condition;
+  const { feelslike_c, humidity, wind_kph } = dataCurrent;
 
   return !isLoading ? (
     <Component>
-      <Condition src={conditionIcon} alt={conditionText} />
       <Content>
-        <CityTemperature city={city} />
         <ValuesContainer>
           <RowCityCard
             title="Влажность"
@@ -85,4 +76,4 @@ const CityCardContent: FC<Props> = ({ city }): JSX.Element => {
   );
 };
 
-export default memo(CityCardContent);
+export default CityCardContentMD;

@@ -1,4 +1,5 @@
 import { loadWeatherData } from "@store/weather/weather.store";
+import { getStorageCities } from "@utils/get-storage-cities";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
@@ -9,11 +10,8 @@ interface AppLoaderProps {
 const AppLoader = ({ children }: AppLoaderProps) => {
   const dispatch = useDispatch();
 
-  const storedCities = localStorage.getItem("selected-cities");
-  const cities = storedCities ? JSON.parse(storedCities) : [];
-
   useEffect(() => {
-    dispatch<any>(loadWeatherData(cities));
+    dispatch<any>(loadWeatherData(getStorageCities()));
   }, [dispatch]);
 
   return children;

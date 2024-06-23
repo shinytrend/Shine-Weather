@@ -1,7 +1,7 @@
 import axios from "axios";
 import configFile from "@config/config.json";
-import { createdCityFailed } from "@store/weather/weather.store";
 import { Dispatch } from "@reduxjs/toolkit";
+import { createdCityFailed } from "@store/weather/weather.store";
 
 const API_KEY = configFile.api_key_weatherapi;
 const BASE_URL = configFile.base_url_weatherapi;

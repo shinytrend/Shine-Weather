@@ -97,6 +97,7 @@ export const createNewCity =
 
       const isDuplicated = getStorageCities().includes(newCity);
       if (isDuplicated) {
+        dispatch(createdCityFailed());
         throw new Error("Этот город уже есть в списке, выберите другой");
       }
 

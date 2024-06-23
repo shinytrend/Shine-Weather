@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { styled } from "@mui/material";
@@ -54,4 +54,4 @@ const CityCardDeleteIcon: FC<Props> = ({ city }): JSX.Element => {
   );
 };
 
-export default CityCardDeleteIcon;
+export default memo(CityCardDeleteIcon);

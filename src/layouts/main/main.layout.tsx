@@ -13,11 +13,11 @@ import {
 import DateAndTime from "./components/date-and-time";
 import DialogConfirm from "@components/common/dialog/dialog-confirm";
 import LoaderFullWindow from "@components/common/loader/loader-full-window";
-import CitiesCards from "./components/cities-cards";
+import CityCards from "./components/city-cards/city-cards";
 // styles
 import { ContainerStyled } from "@styles/container-styled";
 // forms
-import SearchCityForm from "@forms/search-city.form";
+import SearchCityForm from "@forms/search-city-form/search-city.form";
 // hooks
 import useRemoveItem from "@hooks/item/use-remove-item";
 
@@ -25,7 +25,7 @@ const MainLayoutInitialState = {
   selectedCity: ""
 };
 
-const MainLayout: FC = memo(() => {
+const MainLayout: FC = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const isWeatherDataLoading = useSelector(getWeatherDataLoadingStatus());
@@ -38,6 +38,16 @@ const MainLayout: FC = memo(() => {
 
   const data = watch();
   const selectedCity = watch("selectedCity");
+
+  const {
+    openConfirm,
+    handleOpenConfirm,
+    handleCloseConfirm,
+    handleRemoveItem
+  } = useRemoveItem({
+    onRemove: clearWeatherData(),
+    successMessage: "Города успешно удалены!"
+  });
 
   const onSubmit = () => {
     if (selectedCity) {
@@ -56,16 +66,6 @@ const MainLayout: FC = memo(() => {
     }
   };
 
-  const {
-    openConfirm,
-    handleOpenConfirm,
-    handleCloseConfirm,
-    handleRemoveItem
-  } = useRemoveItem({
-    onRemove: clearWeatherData(),
-    successMessage: "Города успешно удалены!"
-  });
-
   return (
     <ContainerStyled>
       <SearchCityForm
@@ -77,7 +77,7 @@ const MainLayout: FC = memo(() => {
         handleSubmit={handleSubmit}
       />
       <DateAndTime margin="0 0 20px 0" />
-      <CitiesCards />
+      <CityCards />
 
       <DialogConfirm
         question="Вы уверены, что хотите удалить все выбранные города?"
@@ -92,6 +92,6 @@ const MainLayout: FC = memo(() => {
       />
     </ContainerStyled>
   );
-});
+};
 
-export default MainLayout;
+export default memo(MainLayout);
