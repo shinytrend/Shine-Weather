@@ -1,5 +1,7 @@
 {
   "api_key_weatherapi": "bd44a36bd5174b1f87c161005242006",
-  "base_url_weatherapi": "http://api.weatherapi.com/v1/current.json",
+  "current_url_weatherapi": "http://api.weatherapi.com/v1/current.json",
+  "astronomy_url_weatherapi": "http://api.weatherapi.com/v1/astronomy.json",
+  "forecast_url_weatherapi": "http://api.weatherapi.com/v1/forecast.json",
   "mobile_width": 1024
 }

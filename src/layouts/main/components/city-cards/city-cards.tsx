@@ -20,6 +20,8 @@ const MOBILE_WIDTH = configFile.mobile_width;
 
 const CityCards: FC = () => {
   const weatherData = useSelector(getWeatherData());
+  console.log("weatherData", weatherData);
+
   const citiesLength = Object.keys(weatherData).length;
 
   const isWeatherDataLoading = useSelector(getWeatherDataLoadingStatus());

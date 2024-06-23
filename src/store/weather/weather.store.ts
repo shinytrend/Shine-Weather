@@ -1,8 +1,8 @@
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import { getStorageCities } from "@utils/get-storage-cities";
 import { getFirstWordBeforeComma } from "@utils/get-first-word-before-comma";
-import { getCitiesList } from "@utils/get-cities-list";
 import { fetchNewCityData } from "@utils/fetch-new-city-data";
+import { fetchWeatherData } from "@utils/fetch-weather-data";
 
 interface WeatherData {
   [key: string]: {
@@ -80,8 +80,8 @@ export const loadWeatherData =
   (selectedCities: string[]) => async (dispatch: Dispatch) => {
     dispatch(weatherDataRequested());
     try {
-      const groupedCities = await getCitiesList(selectedCities);
-      dispatch(weatherDataReceived(groupedCities));
+      const weatherData = await fetchWeatherData(selectedCities);
+      dispatch(weatherDataReceived(weatherData));
     } catch (error: unknown) {
       if (error instanceof Error) {
         dispatch(weatherDataFailed(error.message));
