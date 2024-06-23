@@ -6,6 +6,7 @@ import { fetchWeatherData } from "@utils/fetch-weather-data";
 
 interface WeatherData {
   [key: string]: {
+    astro: any;
     location: any;
     current: any;
   };
@@ -101,7 +102,7 @@ export const createNewCity =
         throw new Error("Этот город уже есть в списке, выберите другой");
       }
 
-      const newCityData = await fetchNewCityData(newCity, dispatch);
+      const newCityData = await fetchNewCityData(newCity);
 
       const newSelectedCities = [...getStorageCities(), searchedCity];
       localStorage.setItem(

@@ -6,7 +6,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 // components
 import ButtonStyled from "@components/common/buttons/button-styled";
 // store
-import { getWeatherData } from "@store/weather/weather.store";
+import { getWeatherData } from "@store/weather/weather-data.store";
 // hooks
 import { Box, styled } from "@mui/material";
 

@@ -1,9 +1,13 @@
 import { FC, memo } from "react";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
 import { styled } from "@mui/material";
-import { deleteCityFromWeatherData } from "@store/weather/weather.store";
+import { useDispatch, useSelector } from "react-redux";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import {
+  deleteCityFromWeatherData,
+  getWeatherData
+} from "@store/weather/weather-data.store";
+import { selectCity } from "@store/weather/selected-city.store";
 
 interface Props {
   city: string;
@@ -31,12 +35,18 @@ const DeleteIconStyled = styled(DeleteOutlineOutlinedIcon)`
 
 const CityCardDeleteIcon: FC<Props> = ({ city }): JSX.Element => {
   const dispatch = useDispatch();
+  const weatherData = useSelector(getWeatherData());
+  const weatherDataKeys = Object.keys(weatherData);
 
   const handleDeleteCard = (city: string) => {
     if (city) {
       dispatch<any>(deleteCityFromWeatherData(city))
         .then(() => {
-          toast.success("Город успешно удален");
+          toast.success(`Город ${city} успешно удален`);
+          if (!weatherDataKeys.length) {
+            return null;
+          }
+          dispatch<any>(selectCity(weatherDataKeys[0]));
         })
         .catch((error: unknown) => {
           if (error instanceof Error) {

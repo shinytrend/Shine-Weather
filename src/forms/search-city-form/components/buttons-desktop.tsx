@@ -7,7 +7,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 // components
 import IconButtonStyled from "@components/common/buttons/icon-button";
 // store
-import { getWeatherData } from "@store/weather/weather.store";
+import { getWeatherData } from "@store/weather/weather-data.store";
 
 interface Props {
   data: Record<string, any>;

@@ -3,7 +3,7 @@ import { Box, styled, useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
 import configFile from "@config/config.json";
 // store
-import { getWeatherData } from "@store/weather/weather.store";
+import { getWeatherData } from "@store/weather/weather-data.store";
 // components
 import CityCard from "@components/UI/city-card/city-card";
 import CityCardSM from "@components/UI/city-card/variants/SM/city-card-sm";
@@ -18,7 +18,7 @@ import useWindowWidth from "@hooks/window/use-window-width";
 const CardsContainer = styled(Box)`
   display: flex;
   justify-content: center;
-  padding-bottom: 70px;
+  padding-bottom: 10px;
 `;
 
 const MOBILE_WIDTH = configFile.mobile_width;

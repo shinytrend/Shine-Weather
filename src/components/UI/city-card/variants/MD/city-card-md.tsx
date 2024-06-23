@@ -6,7 +6,7 @@ import CityCardContentMD from "./city-card-content-md";
 import CityCardDeleteIcon from "../../components/city-card-delete-icon";
 import CityTemperature from "../../components/city-temperature";
 // store
-import { getWeatherData } from "@store/weather/weather.store";
+import { getWeatherData } from "@store/weather/weather-data.store";
 // utils
 import { getBackgroundColor } from "@utils/get-background-card-color";
 

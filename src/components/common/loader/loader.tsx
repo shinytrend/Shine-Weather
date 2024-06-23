@@ -12,7 +12,7 @@ interface Props {
 const Loader: FC<Props> = memo(
   ({
     size = 25,
-    color = "white",
+    color = "orange",
     width = "100%",
     height = "100%",
     padding = "30px 0"

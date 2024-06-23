@@ -3,7 +3,7 @@ import { Box, IconButton, styled } from "@mui/material";
 import { useSelector } from "react-redux";
 import Slider from "react-slick";
 // store
-import { getWeatherData } from "@store/weather/weather.store";
+import { getWeatherData } from "@store/weather/weather-data.store";
 // components
 import CityCard from "@components/UI/city-card/city-card";
 // styles

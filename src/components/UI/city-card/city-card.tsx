@@ -1,11 +1,16 @@
 import { FC, memo } from "react";
-import { useSelector } from "react-redux";
-import { Paper, Typography, styled } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { Box, Paper, Typography, styled } from "@mui/material";
+import { toast } from "react-toastify";
 // components
 import CityCardContent from "./components/city-card-content";
 import CityCardDeleteIcon from "./components/city-card-delete-icon";
 // store
-import { getWeatherData } from "@store/weather/weather.store";
+import { getWeatherData } from "@store/weather/weather-data.store";
+import {
+  getSelectedCity,
+  selectCity
+} from "@store/weather/selected-city.store";
 // utils
 import { getBackgroundColor } from "@utils/get-background-card-color";
 
@@ -31,7 +36,6 @@ const Component = styled(Paper)`
   border: 1px solid transparent;
   transition: border 0.3s ease;
   &:hover {
-    border: 1px solid black;
     .delete-icon {
       visibility: visible;
       opacity: 1;
@@ -40,14 +44,36 @@ const Component = styled(Paper)`
 `;
 
 const CityCard: FC<Props> = ({ city }): JSX.Element => {
+  const dispatch = useDispatch();
   const weatherData = useSelector(getWeatherData());
+
   const code = weatherData[city].current.condition.code;
+  const storageCity = useSelector(getSelectedCity());
+
+  const handleClick = () => {
+    if (city) {
+      dispatch<any>(selectCity(city));
+      toast.success(`Город ${city} успешно выбран`);
+    }
+  };
 
   return (
-    <Component sx={{ background: getBackgroundColor(code) }}>
+    <Component
+      sx={{
+        background: getBackgroundColor(code),
+        border: storageCity === city ? "3px dotted red" : "",
+        boxShadow:
+          storageCity === city ? "0 0 5px 2px rgba(255, 0, 0, 0.5)" : "none",
+        "&:hover": {
+          border: storageCity === city ? "3px dotted red" : "1px solid black"
+        }
+      }}
+    >
+      <Box onClick={handleClick}>
+        <Title variant="h4">{city}</Title>
+        <CityCardContent city={city} />
+      </Box>
       <CityCardDeleteIcon city={city} />
-      <Title variant="h4">{city}</Title>
-      <CityCardContent city={city} />
     </Component>
   );
 };

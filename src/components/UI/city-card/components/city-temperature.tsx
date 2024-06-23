@@ -1,7 +1,7 @@
 import { FC, memo } from "react";
 import { useSelector } from "react-redux";
 import { Typography } from "@mui/material";
-import { getWeatherData } from "@store/weather/weather.store";
+import { getWeatherData } from "@store/weather/weather-data.store";
 
 interface Props {
   city: string;

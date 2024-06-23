@@ -5,7 +5,7 @@ import { Box, styled } from "@mui/material";
 import {
   getWeatherData,
   getWeatherDataLoadingStatus
-} from "@store/weather/weather.store";
+} from "@store/weather/weather-data.store";
 // components
 import RowCityCard from "./city-card-row";
 import Loader from "@components/common/loader/loader";
