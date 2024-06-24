@@ -9,9 +9,10 @@ import AppLoader from "@hoc/app-loader";
 import MainLayout from "@layouts/main/main.layout";
 import HeaderMain from "@components/UI/header-main/header-main";
 // styles
-import "react-toastify/dist/ReactToastify.css";
-import { ApplicationStyled } from "@styles/application-styled";
 import "./styles/styles.css";
+import "react-toastify/dist/ReactToastify.css";
+import "react-perfect-scrollbar/dist/css/styles.css";
+import { ApplicationStyled } from "@styles/application-styled";
 
 const MainContainer = styled(Box)`
   height: 100%;

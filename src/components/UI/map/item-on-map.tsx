@@ -24,7 +24,6 @@ const ItemOnMap: FC = (): JSX.Element => {
   const isWeatherDataLoading = useSelector(getWeatherDataLoadingStatus());
   const city = useSelector(getSelectedCity());
   const selectedCity = weatherData[city];
-
   const [cityCenter, setCityCenter] = useState<[number, number]>([
     Number(`${selectedCity?.location?.lat}`),
     Number(`${selectedCity?.location?.lon}`)
@@ -38,6 +37,15 @@ const ItemOnMap: FC = (): JSX.Element => {
       ]);
     }
   }, [selectedCity]);
+
+  // обработка ошибки "Warning: Unknown: Support for defaultProps
+  // will be removed from function components in a future major release.
+  // Use JavaScript default parameters instead."
+  const error = console.error;
+  console.error = (...args: any) => {
+    if (/defaultProps/.test(args[0])) return;
+    error(...args);
+  };
 
   return (
     <MapContainer>

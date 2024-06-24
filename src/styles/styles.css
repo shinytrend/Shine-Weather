@@ -1,3 +1,18 @@
 body {
   background: rgb(49, 49, 49) !important;
 }
+
+/* custom scroll bar styles */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 100vw;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 100vw;
+}

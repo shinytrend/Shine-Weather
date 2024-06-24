@@ -1,7 +1,7 @@
 import { FC, memo } from "react";
 import { useSelector } from "react-redux";
 import { convertTime12to24 } from "@utils/convert-time-12-to-24";
-import WidgetSimple from "@components/common/widget/widget-simple";
+import WidgetSimple from "@components/common/widget/widget-simple/widget-simple";
 import SunsetImage from "@assets/sunset.png";
 import {
   getWeatherData,

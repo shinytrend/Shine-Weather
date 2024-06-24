@@ -32,6 +32,9 @@ const selectedCitySlice = createSlice({
     },
     selectCitySuccesses: (state, action) => {
       state.entities = action.payload;
+    },
+    clearSelectCity: (state) => {
+      state.entities = "";
     }
   }
 });
@@ -41,7 +44,8 @@ export const {
   selectedCityRequested,
   selectedCityReceived,
   selectedCityFailed,
-  selectCitySuccesses
+  selectCitySuccesses,
+  clearSelectCity
 } = actions;
 
 export const loadSelectedCity = () => (dispatch: Dispatch) => {
@@ -64,4 +68,8 @@ export const selectCity = (city: string) => (dispatch: Dispatch) => {
 export const getSelectedCity = () => (state: IStoreState) =>
   state.selectedCity.entities;
 
+export const clearSelectedCity = () => (dispatch: Dispatch) => {
+  localStorage.setItem("selected-city", "");
+  dispatch(clearSelectCity());
+};
 export default selectedCityReducer;

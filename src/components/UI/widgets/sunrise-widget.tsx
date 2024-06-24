@@ -1,13 +1,17 @@
 import { FC, memo } from "react";
 import { useSelector } from "react-redux";
+// utils
 import { convertTime12to24 } from "@utils/convert-time-12-to-24";
-import WidgetSimple from "@components/common/widget/widget-simple";
+// components
+import WidgetSimple from "@components/common/widget/widget-simple/widget-simple";
+// assets
 import SunriseImage from "@assets/sunrise.png";
+// store
+import { getSelectedCity } from "@store/weather/selected-city.store";
 import {
   getWeatherData,
   getWeatherDataLoadingStatus
 } from "@store/weather/weather-data.store";
-import { getSelectedCity } from "@store/weather/selected-city.store";
 
 const SunriseWidget: FC = (): JSX.Element => {
   const weatherData = useSelector(getWeatherData());

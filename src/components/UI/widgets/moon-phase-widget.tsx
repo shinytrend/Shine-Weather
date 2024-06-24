@@ -2,7 +2,7 @@ import { FC, memo } from "react";
 import { useSelector } from "react-redux";
 import { moonPhases } from "@data/moon-phases";
 import NightSkyImage from "@assets/moon-phases/night-sky.jpg";
-import WidgetSimple from "@components/common/widget/widget-simple";
+import WidgetSimple from "@components/common/widget/widget-simple/widget-simple";
 import {
   getWeatherData,
   getWeatherDataLoadingStatus

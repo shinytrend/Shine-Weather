@@ -4,6 +4,8 @@ import {
   UseFormRegister,
   UseFormSetValue
 } from "react-hook-form";
+import configFile from "@config/config.json";
+import { useMediaQuery } from "@mui/material";
 // components
 import CitiesAutocomplete from "@components/UI/cities-autocomplete/cities-autocomplete";
 import ButtonsMobile from "./components/buttons-mobile";
@@ -22,6 +24,8 @@ interface Props {
   onClear: () => void;
 }
 
+const MOBILE_WIDTH = configFile.mobile_width;
+
 const SearchCityForm: FC<Props> = ({
   data,
   register,
@@ -31,12 +35,15 @@ const SearchCityForm: FC<Props> = ({
   onClear
 }): JSX.Element => {
   const screenWidth = useWindowWidth();
+  const isMobileScreen = useMediaQuery(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallScreen = screenWidth <= 700;
 
   return (
     <FormStyled
       onSubmit={handleSubmit(onSubmit)}
-      sx={{ padding: isSmallScreen ? "0" : "0 22px" }}
+      sx={{
+        padding: isMobileScreen ? "0 6px" : "0 22px"
+      }}
     >
       <FormFields sx={{ flexDirection: isSmallScreen ? "column" : "row" }}>
         <CitiesAutocomplete

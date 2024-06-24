@@ -16,14 +16,11 @@ const Title = styled(Typography)`
   text-align: center;
 `;
 
-const LeftSide = styled(Box)`
+const Component = styled(Box)`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const RightSide = styled(Box)`
-  display: flex;
 `;
 
 const Condition = styled("img")({
@@ -39,16 +36,12 @@ const CityCardXS: FC<Props> = ({ city }): JSX.Element => {
 
   return (
     <SwipeContainer city={city}>
-      <Box>
-        <LeftSide>
-          <Title variant="h4">{city}</Title>
-          <CityTemperature city={city} />
-          <Condition src={conditionIcon} alt={conditionText} />
-        </LeftSide>
-        <RightSide>
-          <CityCardContentXS city={city} />
-        </RightSide>
-      </Box>
+      <Component>
+        <Title variant="h4">{city}</Title>
+        <CityTemperature city={city} />
+        <Condition src={conditionIcon} alt={conditionText} />
+        <CityCardContentXS city={city} />
+      </Component>
     </SwipeContainer>
   );
 };

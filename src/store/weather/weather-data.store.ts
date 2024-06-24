@@ -3,9 +3,11 @@ import { getStorageCities } from "@utils/get-storage-cities";
 import { getFirstWordBeforeComma } from "@utils/get-first-word-before-comma";
 import { fetchNewCityData } from "@utils/fetch-new-city-data";
 import { fetchWeatherData } from "@utils/fetch-weather-data";
+import { clearSelectedCity, selectCity } from "./selected-city.store";
 
 interface WeatherData {
   [key: string]: {
+    hour: any;
     astro: any;
     location: any;
     current: any;
@@ -110,6 +112,12 @@ export const createNewCity =
         JSON.stringify(newSelectedCities)
       );
 
+      const storageCity = localStorage.getItem("selected-city");
+
+      if (!storageCity?.length) {
+        dispatch<any>(selectCity(newCity));
+      }
+
       dispatch(createdCity({ newCityData, searchedCity }));
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -125,10 +133,19 @@ export const deleteCityFromWeatherData =
       const storageCitiesList = getStorageCities().filter(
         (city: string) => city !== selectedCity
       );
+
+      if (storageCitiesList.length) {
+        console.log("storageCitiesList[0]", storageCitiesList[0]);
+        dispatch<any>(selectCity(storageCitiesList[0]));
+      } else {
+        dispatch<any>(clearSelectedCity());
+      }
+
       localStorage.setItem(
         "selected-cities",
         JSON.stringify(storageCitiesList)
       );
+      console.log("storageCitiesList", storageCitiesList);
 
       dispatch(deletedCity(selectedCity));
     } catch (error: unknown) {
@@ -143,6 +160,7 @@ export const clearWeatherData = () => async (dispatch: Dispatch) => {
   try {
     localStorage.setItem("selected-cities", "");
     dispatch(removedAllWeatherData());
+    dispatch<any>(clearSelectedCity());
   } catch (error: unknown) {
     if (error instanceof Error) {
       dispatch(weatherDataFailed(error));

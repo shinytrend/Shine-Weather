@@ -33,7 +33,7 @@ const CityCardsList: FC = (): JSX.Element => {
     <CardsContainer
       sx={{
         flexDirection: isMobileScreen ? "column" : "row",
-        gap: isMobileScreen ? "4px" : "8px"
+        gap: isMobileScreen ? "4px" : "2px"
       }}
     >
       {Object.keys(weatherData)?.map((city) => {

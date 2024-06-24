@@ -7,6 +7,7 @@ import SunriseWidget from "@components/UI/widgets/sunrise-widget";
 import SunsetWidget from "@components/UI/widgets/sunset-widget";
 import DaylightWidget from "@components/UI/widgets/daylight-widget";
 import MoonPhaseWidget from "@components/UI/widgets/moon-phase-widget";
+import WidgetHours from "@components/common/widget/widget-hours/widget-hours";
 // store
 import { getWeatherData } from "@store/weather/weather-data.store";
 
@@ -48,6 +49,9 @@ const WidgetsBlock = () => {
         <WidgetContainer sx={{ flexDirection: isSmScreen ? "column" : "row" }}>
           <DaylightWidget />
           <MoonPhaseWidget />
+        </WidgetContainer>
+        <WidgetContainer sx={{ flexDirection: isSmScreen ? "column" : "row" }}>
+          <WidgetHours />
         </WidgetContainer>
       </Component>
     )

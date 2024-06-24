@@ -76,15 +76,26 @@ const WeatherBlock = () => {
         marginBottom: citiesLength < 4 ? "0px" : isMobileScreen ? 0 : "34px"
       }}
     >
-      <SearchCityForm
-        data={data}
-        register={register}
-        setValue={setValue}
-        onSubmit={onSubmit}
-        onClear={handleOpenConfirm}
-        handleSubmit={handleSubmit}
-      />
-      <DateAndTime margin="0 0 20px 0" />
+      <Box
+        sx={{
+          margin: isMobileScreen ? "0 -6px" : "inherit",
+          paddingTop: isMobileScreen ? "20px" : 0,
+          position: isMobileScreen ? "sticky" : "static",
+          top: isMobileScreen ? 0 : "auto",
+          zIndex: isMobileScreen ? 1000 : "auto",
+          backgroundColor: isMobileScreen ? "white" : "transparent"
+        }}
+      >
+        <SearchCityForm
+          data={data}
+          register={register}
+          setValue={setValue}
+          onSubmit={onSubmit}
+          onClear={handleOpenConfirm}
+          handleSubmit={handleSubmit}
+        />
+        <DateAndTime margin="0 0 20px 0" />
+      </Box>
       <CityCards />
 
       <DialogConfirm
