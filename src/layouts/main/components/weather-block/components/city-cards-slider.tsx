@@ -23,27 +23,27 @@ const StyledIconButton = styled(IconButton)`
 `;
 
 const Component = styled(Box)`
-  padding: 0 20px 0 26px;
+  padding: 0 20px 0 20px;
 `;
-
-const SampleNextArrow: FC<any> = ({ onClick }) => {
-  return (
-    <StyledIconButton style={{ right: -34 }} onClick={onClick}>
-      <ArrowForwardIosOutlinedIcon />
-    </StyledIconButton>
-  );
-};
-
-const SamplePrevArrow: FC<any> = ({ onClick }) => {
-  return (
-    <StyledIconButton style={{ left: -40 }} onClick={onClick}>
-      <ArrowBackIosNewOutlinedIcon />
-    </StyledIconButton>
-  );
-};
 
 const CityCardsSlider: FC = (): JSX.Element => {
   const weatherData = useSelector(getWeatherData());
+
+  const SampleNextArrow: FC<any> = ({ onClick }) => {
+    return (
+      <StyledIconButton style={{ right: -34 }} onClick={onClick}>
+        <ArrowForwardIosOutlinedIcon />
+      </StyledIconButton>
+    );
+  };
+
+  const SamplePrevArrow: FC<any> = ({ onClick }) => {
+    return (
+      <StyledIconButton style={{ left: -40 }} onClick={onClick}>
+        <ArrowBackIosNewOutlinedIcon />
+      </StyledIconButton>
+    );
+  };
 
   const settings = {
     dots: true,

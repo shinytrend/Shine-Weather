@@ -1,6 +1,7 @@
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
+import configFile from "@config/config.json";
 import { useDispatch, useSelector } from "react-redux";
 // store
 import {
@@ -24,6 +25,8 @@ const MainLayoutInitialState = {
   selectedCity: ""
 };
 
+const MOBILE_WIDTH = configFile.mobile_width;
+
 const WeatherBlock = () => {
   const dispatch = useDispatch();
   const weatherData = useSelector(getWeatherData());
@@ -31,6 +34,7 @@ const WeatherBlock = () => {
 
   const isWeatherDataLoading = useSelector(getWeatherDataLoadingStatus());
   const isCreateCityLoading = useSelector(getCreateCityLoadingStatus());
+  const isMobileScreen = useMediaQuery(`(max-width: ${MOBILE_WIDTH}px)`);
 
   const { register, watch, setValue, handleSubmit, reset } = useForm({
     defaultValues: MainLayoutInitialState,
@@ -69,7 +73,7 @@ const WeatherBlock = () => {
   return (
     <Box
       sx={{
-        marginBottom: citiesLength < 4 ? "0px" : "30px"
+        marginBottom: citiesLength < 4 ? "0px" : isMobileScreen ? 0 : "34px"
       }}
     >
       <SearchCityForm
@@ -82,6 +86,7 @@ const WeatherBlock = () => {
       />
       <DateAndTime margin="0 0 20px 0" />
       <CityCards />
+
       <DialogConfirm
         question="Вы уверены, что хотите удалить все выбранные города?"
         open={openConfirm}

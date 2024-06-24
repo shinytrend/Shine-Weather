@@ -32,7 +32,7 @@ const Component = styled(Paper)`
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  margin: 4px 1px;
+  margin: 4px 4px 4px 5px;
   border: 1px solid transparent;
   transition: border 0.3s ease;
   &:hover {

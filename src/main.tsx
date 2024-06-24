@@ -9,12 +9,7 @@ const store = createStore();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    <YMaps
-      query={{
-        apikey: "fe7c4f02-9876-404c-91b2-c6816e373307"
-      }}
-      version={"2.1"}
-    >
+    <YMaps version={"2.1"}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
