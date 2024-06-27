@@ -1,4 +1,4 @@
-import { FC, memo } from "react";
+import { FC, memo, useState, useCallback } from "react";
 import { Box, IconButton, styled } from "@mui/material";
 import { useSelector } from "react-redux";
 import Slider from "react-slick";
@@ -28,6 +28,7 @@ const Component = styled(Box)`
 
 const CityCardsSlider: FC = (): JSX.Element => {
   const weatherData = useSelector(getWeatherData());
+  const [isDragging, setIsDragging] = useState(false);
 
   const SampleNextArrow: FC<any> = ({ onClick }) => {
     return (
@@ -45,6 +46,14 @@ const CityCardsSlider: FC = (): JSX.Element => {
     );
   };
 
+  const handleBeforeChange = useCallback(() => {
+    setIsDragging(true);
+  }, []);
+
+  const handleAfterChange = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -52,14 +61,16 @@ const CityCardsSlider: FC = (): JSX.Element => {
     slidesToShow: 3,
     slidesToScroll: 3,
     nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />
+    prevArrow: <SamplePrevArrow />,
+    beforeChange: handleBeforeChange,
+    afterChange: handleAfterChange
   };
 
   return (
     <Component>
       <Slider {...settings}>
         {Object.keys(weatherData)?.map((city) => {
-          return <CityCard city={city} key={city} />;
+          return <CityCard city={city} key={city} isDragging={isDragging} />;
         })}
       </Slider>
     </Component>

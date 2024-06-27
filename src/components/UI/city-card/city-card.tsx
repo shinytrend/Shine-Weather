@@ -16,6 +16,7 @@ import { getBackgroundColor } from "@utils/get-background-card-color";
 
 interface Props {
   city: string;
+  isDragging: boolean;
 }
 
 const Title = styled(Typography)`
@@ -43,7 +44,7 @@ const Component = styled(Paper)`
   }
 `;
 
-const CityCard: FC<Props> = ({ city }): JSX.Element => {
+const CityCard: FC<Props> = ({ city, isDragging }): JSX.Element => {
   const dispatch = useDispatch();
   const weatherData = useSelector(getWeatherData());
 
@@ -51,7 +52,7 @@ const CityCard: FC<Props> = ({ city }): JSX.Element => {
   const storageCity = useSelector(getSelectedCity());
 
   const handleClick = () => {
-    if (city) {
+    if (!isDragging && city) {
       dispatch<any>(selectCity(city));
       toast.success(`Город ${city} успешно выбран`);
     }
