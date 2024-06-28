@@ -2,7 +2,7 @@ import { Box, useMediaQuery } from "@mui/material";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import configFile from "@config/config.json";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 // store
 import {
   clearWeatherData,
@@ -20,6 +20,7 @@ import CityCards from "./components/city-cards";
 import SearchCityForm from "@forms/search-city-form/search-city.form";
 // hooks
 import useRemoveItem from "@hooks/item/use-remove-item";
+import { useAppDispatch } from "@hooks/redux/redux-hooks";
 
 const MainLayoutInitialState = {
   selectedCity: ""
@@ -28,7 +29,7 @@ const MainLayoutInitialState = {
 const MOBILE_WIDTH = configFile.mobile_width;
 
 const WeatherBlock = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const weatherData = useSelector(getWeatherData());
   const citiesLength = Object.keys(weatherData).length;
 
@@ -56,7 +57,7 @@ const WeatherBlock = () => {
 
   const onSubmit = () => {
     if (selectedCity) {
-      dispatch<any>(createNewCity(selectedCity))
+      dispatch(createNewCity(selectedCity))
         .then(() => {
           toast.success(`Город ${selectedCity} успешно добавлен!`);
         })

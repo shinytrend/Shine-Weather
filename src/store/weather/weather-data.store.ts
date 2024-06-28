@@ -1,22 +1,16 @@
-import { createSlice, Dispatch } from "@reduxjs/toolkit";
-import { getStorageCities } from "@utils/get-storage-cities";
+import { IWeatherData } from "@interfaces/weather-data-interface";
+import { createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
+import { useAppDispatch } from "@hooks/redux/redux-hooks";
+import { clearSelectedCity, selectCity } from "./selected-city.store";
+// utils
 import { getFirstWordBeforeComma } from "@utils/get-first-word-before-comma";
+import { getStorageCities } from "@utils/get-storage-cities";
 import { fetchNewCityData } from "@utils/fetch-new-city-data";
 import { fetchWeatherData } from "@utils/fetch-weather-data";
-import { clearSelectedCity, selectCity } from "./selected-city.store";
-
-interface WeatherData {
-  [key: string]: {
-    hour: any;
-    astro: any;
-    location: any;
-    current: any;
-  };
-}
 
 interface IStoreState {
   weatherData: {
-    entities: WeatherData;
+    entities: IWeatherData;
     isLoading: boolean;
     isCreatedLoading: boolean;
     error: string | null;
@@ -27,7 +21,7 @@ const initialState = {
   entities: {},
   isLoading: false,
   isCreatedLoading: false,
-  error: null
+  error: ""
 };
 
 const weatherDataSlice = createSlice({
@@ -37,11 +31,11 @@ const weatherDataSlice = createSlice({
     weatherDataRequested: (state) => {
       state.isLoading = true;
     },
-    weatherDataReceived: (state, action) => {
+    weatherDataReceived: (state, action: PayloadAction<IWeatherData>) => {
       state.entities = action.payload;
       state.isLoading = false;
     },
-    weatherDataFailed: (state, action) => {
+    weatherDataFailed: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
       state.isLoading = false;
     },
@@ -51,13 +45,17 @@ const weatherDataSlice = createSlice({
     createdCityFailed: (state) => {
       state.isCreatedLoading = false;
     },
-    createdCity: (state, action) => {
+    createdCity: (
+      state,
+      action: PayloadAction<{ newCityData: IWeatherData; searchedCity: string }>
+    ) => {
       const { newCityData, searchedCity } = action.payload;
-      state.entities[searchedCity] = newCityData;
+      const entities: { [key: string | number]: IWeatherData } = state.entities;
+      entities[searchedCity] = newCityData;
       state.isCreatedLoading = false;
     },
-    deletedCity: (state, action) => {
-      const updatedEntities = { ...state.entities };
+    deletedCity: (state, action: PayloadAction<string>) => {
+      const updatedEntities: IWeatherData = { ...state.entities };
       delete updatedEntities[action.payload];
       state.entities = updatedEntities;
     },
@@ -94,6 +92,7 @@ export const loadWeatherData =
 
 export const createNewCity =
   (searchedCity: string) => async (dispatch: Dispatch) => {
+    const dispatchApp = useAppDispatch();
     dispatch(createdCityRequested());
     try {
       const newCity = getFirstWordBeforeComma(searchedCity);
@@ -115,13 +114,13 @@ export const createNewCity =
       const storageCity = localStorage.getItem("selected-city");
 
       if (!storageCity?.length) {
-        dispatch<any>(selectCity(newCity));
+        dispatchApp(selectCity(newCity));
       }
 
       dispatch(createdCity({ newCityData, searchedCity }));
     } catch (error: unknown) {
       if (error instanceof Error) {
-        dispatch(weatherDataFailed(error));
+        dispatch(weatherDataFailed(error.message));
       }
       throw error;
     }
@@ -129,41 +128,41 @@ export const createNewCity =
 
 export const deleteCityFromWeatherData =
   (selectedCity: string) => async (dispatch: Dispatch) => {
+    const dispatchApp = useAppDispatch();
     try {
       const storageCitiesList = getStorageCities().filter(
         (city: string) => city !== selectedCity
       );
 
       if (storageCitiesList.length) {
-        console.log("storageCitiesList[0]", storageCitiesList[0]);
-        dispatch<any>(selectCity(storageCitiesList[0]));
+        dispatchApp(selectCity(storageCitiesList[0]));
       } else {
-        dispatch<any>(clearSelectedCity());
+        dispatchApp(clearSelectedCity());
       }
 
       localStorage.setItem(
         "selected-cities",
         JSON.stringify(storageCitiesList)
       );
-      console.log("storageCitiesList", storageCitiesList);
 
       dispatch(deletedCity(selectedCity));
     } catch (error: unknown) {
       if (error instanceof Error) {
-        dispatch(weatherDataFailed(error));
+        dispatch(weatherDataFailed(error.message));
       }
       throw error;
     }
   };
 
 export const clearWeatherData = () => async (dispatch: Dispatch) => {
+  const dispatchApp = useAppDispatch();
   try {
     localStorage.setItem("selected-cities", "");
     dispatch(removedAllWeatherData());
-    dispatch<any>(clearSelectedCity());
+    dispatchApp(clearSelectedCity());
   } catch (error: unknown) {
     if (error instanceof Error) {
-      dispatch(weatherDataFailed(error));
+      dispatch(weatherDataFailed(error.message));
     }
     throw error;
   }

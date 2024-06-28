@@ -9,6 +9,8 @@ import { getSelectedCity } from "@store/weather/selected-city.store";
 import { getWeatherData } from "@store/weather/weather-data.store";
 // utils
 import { filterHoursArray } from "@utils/filter-hours-array";
+// interfaces
+import { IHour } from "@interfaces/weather-data-interface";
 
 const Component = styled(Paper)`
   width: 100%;
@@ -38,7 +40,7 @@ const WidgetHours = () => {
 
   return (
     <Component ref={ref} onMouseDown={onMouseDown}>
-      {hoursArray?.map((hour: Record<string, any>) => (
+      {hoursArray?.map((hour: IHour) => (
         <HourComponent hour={hour} key={hour.time_epoch} />
       ))}
     </Component>

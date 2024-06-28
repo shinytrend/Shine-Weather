@@ -1,4 +1,6 @@
-export const filterHoursArray = (hoursArray: Record<string, any>) => {
+import { IHour } from "@interfaces/weather-data-interface";
+
+export const filterHoursArray = (hoursArray: IHour[]) => {
   const currentDate = new Date();
   const currentHour = currentDate?.getHours();
 
@@ -9,7 +11,7 @@ export const filterHoursArray = (hoursArray: Record<string, any>) => {
     "0"
   )} ${String(currentHour).padStart(2, "0")}:`;
 
-  const filteredArray = hoursArray?.filter((hour: Record<string, any>) => {
+  const filteredArray = hoursArray?.filter((hour: IHour) => {
     return hour.time >= currentHourString;
   });
 

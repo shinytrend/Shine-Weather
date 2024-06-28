@@ -1,9 +1,10 @@
 import { FC, memo } from "react";
 import { Box, Typography, styled } from "@mui/material";
 import { getBackgroundColor } from "@utils/get-background-card-color";
+import { IHour } from "@interfaces/weather-data-interface";
 
 interface Props {
-  hour: Record<string, any>;
+  hour: IHour;
 }
 
 const Component = styled(Box)`

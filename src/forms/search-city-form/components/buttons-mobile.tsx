@@ -11,7 +11,7 @@ import { getWeatherData } from "@store/weather/weather-data.store";
 import { Box, styled } from "@mui/material";
 
 interface Props {
-  data: Record<string, any>;
+  data: Record<string, string>;
   onClear: () => void;
 }
 
@@ -20,6 +20,8 @@ const ButtonsContainer = styled(Box)`
 `;
 
 const ButtonsMobile: FC<Props> = ({ data, onClear }): JSX.Element => {
+  console.log("ButtonsMobile", data);
+
   const weatherData = useSelector(getWeatherData());
   const isWeatherDataEmpty = !!Object.keys(weatherData).length;
 

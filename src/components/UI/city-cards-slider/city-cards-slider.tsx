@@ -1,26 +1,16 @@
 import { FC, memo, useState, useCallback } from "react";
-import { Box, IconButton, styled } from "@mui/material";
+import { Box, styled } from "@mui/material";
 import { useSelector } from "react-redux";
 import Slider from "react-slick";
 // store
 import { getWeatherData } from "@store/weather/weather-data.store";
 // components
 import CityCard from "@components/UI/city-card/city-card";
+import SliderArrowPrev from "./components/slider-arrow-prev";
+import SliderArrowNext from "./components/slider-arrow-next";
 // styles
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-// icons
-import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutlined";
-import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
-
-const StyledIconButton = styled(IconButton)`
-  position: absolute;
-  top: 44%;
-  color: green !important;
-  &:hover {
-    color: blue !important;
-  }
-`;
 
 const Component = styled(Box)`
   padding: 0 20px 0 20px;
@@ -29,22 +19,6 @@ const Component = styled(Box)`
 const CityCardsSlider: FC = (): JSX.Element => {
   const weatherData = useSelector(getWeatherData());
   const [isDragging, setIsDragging] = useState(false);
-
-  const SampleNextArrow: FC<any> = ({ onClick }) => {
-    return (
-      <StyledIconButton style={{ right: -34 }} onClick={onClick}>
-        <ArrowForwardIosOutlinedIcon />
-      </StyledIconButton>
-    );
-  };
-
-  const SamplePrevArrow: FC<any> = ({ onClick }) => {
-    return (
-      <StyledIconButton style={{ left: -40 }} onClick={onClick}>
-        <ArrowBackIosNewOutlinedIcon />
-      </StyledIconButton>
-    );
-  };
 
   const handleBeforeChange = useCallback(() => {
     setIsDragging(true);
@@ -60,8 +34,20 @@ const CityCardsSlider: FC = (): JSX.Element => {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 3,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+    nextArrow: (
+      <SliderArrowNext
+        onClick={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
+    ),
+    prevArrow: (
+      <SliderArrowPrev
+        onClick={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
+    ),
     beforeChange: handleBeforeChange,
     afterChange: handleAfterChange
   };

@@ -16,3 +16,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     </YMaps>
   </Provider>
 );
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

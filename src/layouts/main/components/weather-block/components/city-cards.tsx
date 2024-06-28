@@ -10,7 +10,7 @@ import {
 // components
 import EmptySelectTitle from "./empty-select-title";
 import CitiesCardsInBox from "./city-cards-list";
-import CityCardsSlider from "./city-cards-slider";
+import CityCardsSlider from "@components/UI/city-cards-slider/city-cards-slider";
 import CityCardsList from "./city-cards-list";
 // styles
 import "slick-carousel/slick/slick.css";

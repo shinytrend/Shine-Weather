@@ -16,11 +16,11 @@ import { FormFields, FormStyled } from "@styles/form-styled";
 import useWindowWidth from "@hooks/window/use-window-width";
 
 interface Props {
-  register: UseFormRegister<any>;
-  setValue: UseFormSetValue<any>;
-  handleSubmit: UseFormHandleSubmit<any>;
-  onSubmit: (data: any) => void;
-  data: Record<string, any>;
+  register: UseFormRegister<Record<string, string>>;
+  setValue: UseFormSetValue<Record<string, string>>;
+  handleSubmit: UseFormHandleSubmit<Record<string, string>>;
+  onSubmit: (data: Record<string, string>) => void;
+  data: Record<string, string>;
   onClear: () => void;
 }
 

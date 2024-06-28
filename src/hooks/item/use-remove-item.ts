@@ -1,9 +1,10 @@
+import { useAppDispatch } from "@hooks/redux/redux-hooks";
+import { Dispatch } from "@reduxjs/toolkit";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 interface useRemoveItemProps {
-  onRemove: (dispatch: any) => Promise<void>;
+  onRemove: (dispatch: Dispatch) => Promise<void>;
   successMessage: string;
 }
 
@@ -19,7 +20,7 @@ const useRemoveItem = ({
   successMessage
 }: useRemoveItemProps): useRemoveItemReturnType => {
   const [openConfirm, setOpenConfirm] = useState<boolean>(false);
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleOpenConfirm = (): void => {
     setOpenConfirm(true);

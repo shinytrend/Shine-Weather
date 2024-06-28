@@ -2,9 +2,8 @@ import { FC, useState } from "react";
 import { toast } from "react-toastify";
 import { Paper, Box, styled } from "@mui/material";
 import { useSwipeable } from "react-swipeable";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-
 // store
 import {
   deleteCityFromWeatherData,
@@ -16,6 +15,8 @@ import {
 } from "@store/weather/selected-city.store";
 // utils
 import { getBackgroundColor } from "@utils/get-background-card-color";
+// hooks
+import { useAppDispatch } from "@hooks/redux/redux-hooks";
 
 interface Props {
   city: string;
@@ -70,9 +71,10 @@ const DeleteIconStyled = styled(DeleteOutlineOutlinedIcon)`
 `;
 
 const SwipeContainer: FC<Props> = ({ city, children }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isSwiped, setIsSwiped] = useState(false);
   const [showDeleteIcon, setShowDeleteIcon] = useState(false);
+
   const storageCity = useSelector(getSelectedCity());
 
   const weatherData = useSelector(getWeatherData());
@@ -88,20 +90,20 @@ const SwipeContainer: FC<Props> = ({ city, children }) => {
 
   const handleClick = () => {
     if (city) {
-      dispatch<any>(selectCity(city));
+      dispatch(selectCity(city));
       toast.success(`Город ${city} успешно выбран`);
     }
   };
 
   const handleDeleteCard = (city: string) => {
     if (city) {
-      dispatch<any>(deleteCityFromWeatherData(city))
+      dispatch(deleteCityFromWeatherData(city))
         .then(() => {
           toast.success(`Город ${city} успешно удален`);
           if (!weatherDataKeys.length) {
             return null;
           }
-          dispatch<any>(selectCity(weatherDataKeys[0]));
+          dispatch(selectCity(weatherDataKeys[0]));
         })
         .catch((error: unknown) => {
           if (error instanceof Error) {

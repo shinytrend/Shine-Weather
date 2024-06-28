@@ -16,8 +16,8 @@ interface ICityType {
 }
 
 interface Props {
-  register: UseFormRegister<any>;
-  setValue: UseFormSetValue<any>;
+  register: UseFormRegister<Record<string, string>>;
+  setValue: UseFormSetValue<Record<string, string>>;
   name: string;
 }
 
@@ -74,7 +74,7 @@ const CitiesAutocomplete: React.FC<Props> = ({
       filterSelectedOptions
       value={value}
       noOptionsText="Город не найден"
-      onChange={(_: any, newValue: ICityType | null) => {
+      onChange={(_, newValue: ICityType | null) => {
         setValueLocal(newValue);
         setValue(name, newValue?.city || "");
       }}

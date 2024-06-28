@@ -1,5 +1,5 @@
 import { FC, memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Box, Paper, Typography, styled } from "@mui/material";
 import { toast } from "react-toastify";
 // components
@@ -13,10 +13,11 @@ import {
 } from "@store/weather/selected-city.store";
 // utils
 import { getBackgroundColor } from "@utils/get-background-card-color";
+import { useAppDispatch } from "@hooks/redux/redux-hooks";
 
 interface Props {
   city: string;
-  isDragging: boolean;
+  isDragging?: boolean;
 }
 
 const Title = styled(Typography)`
@@ -45,15 +46,16 @@ const Component = styled(Paper)`
 `;
 
 const CityCard: FC<Props> = ({ city, isDragging }): JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const weatherData = useSelector(getWeatherData());
+  console.log("weatherData", weatherData);
 
   const code = weatherData[city].current.condition.code;
   const storageCity = useSelector(getSelectedCity());
 
   const handleClick = () => {
     if (!isDragging && city) {
-      dispatch<any>(selectCity(city));
+      dispatch(selectCity(city));
       toast.success(`Город ${city} успешно выбран`);
     }
   };

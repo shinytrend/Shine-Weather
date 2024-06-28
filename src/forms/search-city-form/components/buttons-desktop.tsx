@@ -10,7 +10,7 @@ import IconButtonStyled from "@components/common/buttons/icon-button";
 import { getWeatherData } from "@store/weather/weather-data.store";
 
 interface Props {
-  data: Record<string, any>;
+  data: Record<string, string>;
   onClear: () => void;
 }
 
